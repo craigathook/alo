@@ -43,16 +43,11 @@ function AnimationCanvas(animation, callback, options) {
     var loader = new createjs.LoadQueue(false);
     loader.addEventListener('fileload', this.handleFileLoad);
     loader.addEventListener('complete', this.handleComplete);
+    loader.addEventListener('error', this.handleError);
 
     if (lib.properties.manifest.length == 0) {
-      try {
         console.log('AnimationCanvas: Loading spritesheet.');
         loader.loadFile({src: 'images/index_atlas_.json', type: 'spritesheet', id: 'index_atlas_'}, true);
-      } catch(e) {
-        console.log('AnimationCanvas: No images found.');
-        handleComplete(null);
-      }
-      //handleComplete(null);
     } else {
       console.log('AnimationCanvas: Loading images.');
       loader.loadManifest(lib.properties.manifest);
@@ -69,14 +64,20 @@ function AnimationCanvas(animation, callback, options) {
 
   this.handleError = function (err) {
     console.log('AnimationCanvas: Error loading images.');
+    if(err.data.src == 'images/index_atlas_.json') {
+      console.log('AnimationCanvas: No images found.');
+    }
+    this.handleComplete(null);
+    
   }.bind(this);
 
   this.handleComplete = function (evt) {
     console.log('AnimationCanvas: handleComplete()');
-    console.log(images);
     images = {};
-    var queue = evt.target;
-    ss['index_atlas_'] = queue.getResult('index_atlas_');
+    if(evt) {
+      var queue = evt.target;
+      ss['index_atlas_'] = queue.getResult('index_atlas_');
+    }
 
     this.exportRoot = new lib.index();
 

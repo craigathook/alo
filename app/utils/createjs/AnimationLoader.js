@@ -5,7 +5,7 @@ function AnimationLoader() {
   var loadIndex = 0;
   var loadScript;
 
-  if(Enabler) {
+  if(window.hasOwnProperty('Enabler')) {
     loadScript = Enabler.loadScript;
   } else {
     loadScript = scriptLoader;

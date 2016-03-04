@@ -1,7 +1,7 @@
-var AnimationLoader = require('./createjs/AnimationLoader');
-var AnimationCanvas = require('./createjs/AnimationCanvas');
+var AnimationLoader = require('./AnimationLoader');
+var AnimationCanvas = require('./AnimationCanvas');
 
-var cjsLoader = new CreateJSLoader();
+var loader = new AnimationLoader();
 
 function ModuleLoader() {
 
@@ -16,13 +16,13 @@ function ModuleLoader() {
       animationData: null
     };
 
-    cjsLoader.load(animationName, this.loadComplete.bind(moduleData));
+    loader.load(animationName, this.loadComplete.bind(moduleData));
 
   }.bind(this);
 
   this.loadComplete = function(animationData) {
     this.animationData = animationData;
-    expand = new CreateJSCanvas(animationData, moduleLoaded.bind(this), this.options);
+    expand = new AnimationCanvas(animationData, moduleLoaded.bind(this), this.options);
   };
 
   function moduleLoaded(stage) {

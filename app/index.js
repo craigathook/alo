@@ -30,6 +30,8 @@ function Main() {
     console.log('Main: loadComplete', instance);
   }
 
+  this.init();
+
 }
 
 var main = new Main();

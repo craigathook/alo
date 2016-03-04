@@ -66,20 +66,20 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{ove
 
 	// timeline functions:
 	this.frame_0 = function() {
-		stop();
+		this.stop();
 	}
 	this.frame_22 = function() {
-		stop();
+		this.stop();
 	}
 
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(22).call(this.frame_22).wait(23));
 
 	// hit
-	this.hitArea = new lib.hit();
-	this.hitArea.setTransform(150,150,1,1,0,0,0,150,150);
+	this.hitSquare = new lib.hit();
+	this.hitSquare.setTransform(150,150,1,1,0,0,0,150,150);
 
-	this.timeline.addTween(cjs.Tween.get(this.hitArea).wait(45));
+	this.timeline.addTween(cjs.Tween.get(this.hitSquare).wait(45));
 
 	// mc
 	this.instance = new lib.mc_over();

@@ -12,14 +12,14 @@ function ButtonA(context, data) {
     this.parent = parent;
   }.bind(this);
 
-  root.hitArea.addEventListener('mouseover', function() {
+  root.hitSquare.addEventListener('mouseover', function() {
     root.gotoAndPlay('over');
   });
 
-  root.hitArea.addEventListener('mouseout', function() {
+  root.hitSquare.addEventListener('mouseout', function() {
     root.gotoAndPlay('out');
   });
 
 }
 
-module.exports = ButtonB;
+module.exports = ButtonA;
