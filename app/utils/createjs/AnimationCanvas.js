@@ -9,7 +9,7 @@ function AnimationCanvas(animation, callback, options) {
     target: null,
     transparent: false,
     onTick: null
-  }
+  };
 
   var options = mergeOptions(defaults, options);
 

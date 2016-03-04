@@ -1,4 +1,4 @@
-function ButtonB(context, data){
+function ButtonB(context, data) {
   console.log('ButtonB: instance');
 
   var root = context;
@@ -12,14 +12,14 @@ function ButtonB(context, data){
     this.parent = parent;
   }.bind(this);
 
-  root.hitArea.addEventListener('mouseover', function(){
-      root.gotoAndPlay('over');
-    });
+  root.hitArea.addEventListener('mouseover', function() {
+    root.gotoAndPlay('over');
+  });
 
-  root.hitArea.addEventListener('mouseout', function(){
+  root.hitArea.addEventListener('mouseout', function() {
     root.gotoAndPlay('out');
   });
-  
+
 }
 
 module.exports = ButtonB;

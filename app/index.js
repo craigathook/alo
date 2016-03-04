@@ -5,22 +5,28 @@ var ButtonB = require('./ButtonB'); // Animation Module
 
 var ModuleLoader = require('./utils/createjs/ModuleLoader');
 
-function Main(){
+function Main() {
   console.log('Main: instance');
 
   var module = new ModuleLoader();
 
-  var buttonAContainer = document.querySelector("#buttonA");
-  var buttonBContainer = document.querySelector("#buttonB");
+  var buttonAContainer = document.querySelector('#buttonA');
+  var buttonBContainer = document.querySelector('#buttonB');
 
   this.init = function() {
     console.log('Main: init');
-    
-    module.load("animations/button-a", ButtonA, animationLoadComplete, {target: buttonAContainer, transparent: true });
-    module.load("animations/button-b", ButtonB, animationLoadComplete, {target: buttonBContainer, transparent: true });
+
+    module.load('animations/button-a', ButtonA, animationLoadComplete, {
+      target: buttonAContainer,
+      transparent: true
+    });
+    module.load('animations/button-b', ButtonB, animationLoadComplete, {
+      target: buttonBContainer,
+      transparent: true
+    });
   }
 
-  function animationLoadComplete(instance){
+  function animationLoadComplete(instance) {
     console.log('Main: loadComplete', instance);
   }
 
