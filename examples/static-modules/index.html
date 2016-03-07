@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://code.createjs.com/easeljs-0.8.1.min.js"></script>
+    <script src="http://code.createjs.com/tweenjs-0.6.1.min.js"></script>
+    <script src="http://code.createjs.com/movieclip-0.8.1.min.js"></script>
+    <script src="http://code.createjs.com/preloadjs-0.6.1.min.js"></script>
+    <script src="js/RetinaStage.js"></script>
+    <script src="../../build/alo.min.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+  <body>
+    <div id="container">
+      <div id="buttonA"></div>
+      <div id="buttonB"></div>
+    </div>
+    <script>
+      function Main() {
+        console.log('Main: instance');
+
+        var buttonAContainer = document.querySelector('#buttonA');
+        var buttonBContainer = document.querySelector('#buttonB');
+
+        this.init = function() {
+          console.log('Main: init');
+
+          alo.module.load('animations/button-a', Button, animationLoadComplete, {
+            target: buttonAContainer,
+            transparent: true
+          });
+          alo.module.load('animations/button-b', Button, animationLoadComplete, {
+            target: buttonBContainer,
+            transparent: true
+          });
+        }
+
+        function animationLoadComplete(instance) {
+          console.log('Main: loadComplete', instance);
+        }
+
+        this.init();
+
+      }
+
+      function Button(context, data) {
+
+        var root = context;
+        var lib = data.lib;
+
+        root.hitSquare.addEventListener('mouseover', function() {
+          root.gotoAndPlay('over');
+        });
+
+        root.hitSquare.addEventListener('mouseout', function() {
+          root.gotoAndPlay('out');
+        });
+
+      }
+
+      var main = new Main();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://code.createjs.com/easeljs-0.8.1.min.js"></script>
+    <script src="http://code.createjs.com/tweenjs-0.6.1.min.js"></script>
+    <script src="http://code.createjs.com/movieclip-0.8.1.min.js"></script>
+    <script src="http://code.createjs.com/preloadjs-0.6.1.min.js"></script>
+    <script src="js/RetinaStage.js"></script>
+    <script src="../../build/alo.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+  <body>
+    <div id="container">
+      <div id="buttonA"></div>
+      <div id="buttonB"></div>
+    </div>
+    <script>
+
+      function init() {
+
+        alo.load('animations/button-a', '#buttonA', buttonLoaded, { transparent: true });
+        alo.load('animations/button-b', '#buttonB', buttonLoaded, { transparent: true });
+
+      }
+
+      function buttonLoaded(root) {
+
+        root.hitSquare.addEventListener('mouseover', function() {
+          root.gotoAndPlay('over');
+        });
+
+        root.hitSquare.addEventListener('mouseout', function() {
+          root.gotoAndPlay('out');
+        });
+      }
+
+      init();
+
+    </script>
+  </body>
+</html>

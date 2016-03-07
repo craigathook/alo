@@ -1,6 +1,7 @@
 'use strict';
 
-var dest = './dist';
+var exampleDest = './examples/commonjs/dist';
+var buildDest = './build/';
 
 var config = {
 
@@ -10,28 +11,28 @@ var config = {
   },
 
   clean: {
-    src: dest
+    src: exampleDest
   },
 
   styles: {
     src: './styles/**/*',
     entry: './styles/index.styl',
-    dist: dest + '/css/'
+    dist: exampleDest + '/css/'
   },
 
   static: {
-    src: ['./static/**/*'],
-    dist: dest
+    src: ['./examples/commonjs/static/**/*'],
+    dist: exampleDest
   },
 
   images: {
-    src: ['./static/images/**/*.{gif,jpg,png,svg}'],
-    dist: dest + '/images/'
+    src: ['./examples/commonjs/static/images/**/*.{gif,jpg,png,svg}'],
+    dist: exampleDest + '/images/'
   },
 
   tests: {
     lint: {
-      src: ['./app/**/*.js', '!app/vendor/**/*.js', './gulp/**/*.js', './tests/**/*.js']
+      src: ['./examples/commonjs/app/**/*.js', '!examples/commonjs/app/vendor/**/*.js', './gulp/**/*.js', './tests/**/*.js']
     },
     mocha: {
       src: ['./tests/**/*.js'],
@@ -44,35 +45,46 @@ var config = {
 
   scripts: {
     app: {
-      src: ['./app/**/*.js', '!./app/vendor/**/*.js'],
-      entry: './app/index.js'
+      src: ['./examples/commonjs/app/**/*.js', '!./examples/commonjs/app/vendor/**/*.js'],
+      entry: './examples/commonjs/app/Main.js'
     },
     vendor: {
-      src: './app/vendor/**/*.js'
+      src: './examples/commonjs/app/vendor/**/*.js'
     },
     tests: {
       src: './tests/**/*.js'
     },
-    dist: dest + '/js/'
+    dist: exampleDest + '/js/'
+  },
+
+  build: {
+    app: {
+      src: ['./src/**/*.js'],
+      entry: './src/alo.js'
+    },
+    tests: {
+      src: './tests/**/*.js'
+    },
+    dist: buildDest
   },
 
   server: {
-    root: dest,
+    root: exampleDest,
     port: 8080
   },
 
   version: {
-    css: dest + '/css/*.css',
-    cssDist: dest + '/css/',
+    css: exampleDest + '/css/*.css',
+    cssDist: exampleDest + '/css/',
 
-    html: dest + '/*.html',
-    htmlDist: dest + '/',
+    html: exampleDest + '/*.html',
+    htmlDist: exampleDest + '/',
 
-    js: dest + '/js/*.js',
-    jsDist: dest + '/js/',
+    js: exampleDest + '/js/*.js',
+    jsDist: exampleDest + '/js/',
 
-    jsMap: dest + '/js/*.map',
-    jsMapDist: dest + '/js/'
+    jsMap: exampleDest + '/js/*.map',
+    jsMapDist: exampleDest + '/js/'
   },
 
   bower: './bower_components/'

@@ -7,8 +7,8 @@ var config = require('./config');
 
 // two more states to minify code and create sourcemaps. The default is for local development.
 gulp.task('dev', function(done) {
-  config.flags.minify = true;
-  config.flags.sourcemap = true;
+  config.flags.minify = false;
+  config.flags.sourcemap = false;
   done();
 });
 
@@ -22,15 +22,16 @@ gulp.task('prod', function(done) {
 gulp.task('clean', require('./tasks/clean')( gulp, config.clean ));
 gulp.task('images', require('./tasks/images')( gulp, bs, config.images ));
 gulp.task('scripts-app', require('./tasks/scripts-app')( gulp, bs, config.scripts, config.flags ));
+gulp.task('scripts-build', require('./tasks/scripts-build')( gulp, bs, config.build, config.flags ));
 gulp.task('scripts-vendor', require('./tasks/scripts-vendor')( gulp, bs, config.scripts, config.flags ));
 gulp.task('static', require('./tasks/static')( gulp, bs, config.static ));
-gulp.task('styles', require('./tasks/styles')( gulp, bs, config.styles, config.flags ));
+//gulp.task('styles', require('./tasks/styles')( gulp, bs, config.styles, config.flags ));
 gulp.task('tests-jscs', require('./tasks/tests-jscs')( gulp, config.tests.lint ));
 gulp.task('tests-jshint', require('./tasks/tests-jshint')( gulp, config.tests.lint ));
 gulp.task('tests-mocha', require('./tasks/tests-mocha')( gulp, config.tests.mocha ));
 gulp.task('version', require('./tasks/version')( gulp, config.version ));
 
-gulp.task('scripts', gulp.parallel( 'scripts-app', 'scripts-vendor' ));
+gulp.task('example', gulp.parallel( 'scripts-app', 'scripts-vendor', 'static' ));
 gulp.task('tests', gulp.parallel( 'tests-jscs', 'tests-jshint', 'tests-mocha' ));
 
 // define watch actions
@@ -52,7 +53,7 @@ gulp.task('watch', function(done) {
   gulp.watch(config.scripts.vendor.src, gulp.series( /*'tests', */'scripts-vendor' ));
   gulp.watch(config.scripts.tests.src, gulp.series( /*'tests'*/ ));
 
-  gulp.watch(config.styles.src, gulp.series( 'styles' ));
+  //gulp.watch(config.styles.src, gulp.series( 'styles' ));
   gulp.watch(config.static.src, gulp.series( 'static' ));
 
   done();
@@ -60,14 +61,10 @@ gulp.task('watch', function(done) {
 });
 
 // define user commands
-gulp.task('build', gulp.series( 'clean', gulp.parallel( 'static', 'scripts', 'styles', 'images' ) ));
-
-gulp.task('build-dev', gulp.series( 'dev', 'build' ));
-
-gulp.task('build-prod', gulp.series( 'prod', 'build', 'version' ));
-
-gulp.task('watch-dev', gulp.series(  'dev', 'build', 'watch' ));
-
-gulp.task('watch-prod', gulp.series( 'prod', 'build', 'watch' ));
-
-gulp.task('default', gulp.series( 'watch-dev' ));
+gulp.task('build', gulp.series( 'prod', 'scripts-build' ));
+gulp.task('build-dev', gulp.series( 'dev', 'scripts-build' ));
+gulp.task('build-prod', gulp.series( 'prod', 'scripts-build' ));
+gulp.task('watch-dev', gulp.series(  'dev', 'example', 'watch' ));
+gulp.task('watch-prod', gulp.series( 'prod', 'example', 'watch' ));
+gulp.task('example', gulp.series( 'watch-dev' ));
+gulp.task('default', gulp.series( 'build-prod' ));
