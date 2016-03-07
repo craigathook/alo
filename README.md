@@ -6,15 +6,13 @@ Alo helps with loading exported CreateJS from Adobe Animate and Adobe Flash. It 
 
 Alo requires the animations be exported as 'index.js', and be contained in their own folder. This helps keep image and other assets from conflicting between animations. For example, a bird animation containing a bird animation should be structured like this:
 
- > /bird/images/bird.png - image used in animation
- > /bird/index.fla - source animate/flash file
- > /bird.index.js - exported CreateJS code
+    /bird/images/bird.png - image used in animation
+    /bird/index.fla - source animate/flash file
+    /bird/index.js - exported CreateJS code
 
 From here you would load the your animation like this:
 
-    alo.load('/bird', birdContainerDiv, function(root){ 
-      console.log('bird animation loaded'); root.gotoAndPlay('flap'); 
-    });
+    alo.load('/bird', '#birdContainer', function(root){ root.gotoAndPlay('flap') });
 
 # Alo Module
 
