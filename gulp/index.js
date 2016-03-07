@@ -61,7 +61,7 @@ gulp.task('watch', function(done) {
 });
 
 // define user commands
-gulp.task('build', gulp.series( 'prod', 'scripts-build' ));
+gulp.task('build', gulp.series( 'prod', 'scripts-build', 'dev', 'scripts-build' ));
 gulp.task('build-dev', gulp.series( 'dev', 'scripts-build' ));
 gulp.task('build-prod', gulp.series( 'prod', 'scripts-build' ));
 gulp.task('watch-dev', gulp.series(  'dev', 'example', 'watch' ));
