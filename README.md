@@ -35,15 +35,19 @@ From here you would load the your animation like this:
       transparent: true
     });
 
+<!-- incomplete
+
 # Methods/Classes
 
 Alo has these methods and classes:
 
- > **alo.Canvas** (_AnimationCanvas_) - When instanced, it creates a CreateJS canvas in the given target with the given CreateJS animation data.
+ > **alo.Canvas** (class _AnimationCanvas_) - When instanced, it creates a CreateJS canvas in the given target with the given CreateJS animation data.
  
- > **alo.Loader** (_AnimationLoader_) - Loads the given animation with a callback that returns the root of the given animation's display list.
+ > **alo.module** (instance of _ModuleLoader_) - Instantiates a CommonJS module with a reference to the root of the given animation's display list. The module is instantiated BEFORE any frame is rendered, so methods in this module can be accessible on the animation's timeline.
  
- > **alo.module** (_ModuleLoader_) - Instantiates a CommonJS module with a reference to the root of the given animation's display list. The module is instantiated BEFORE any frame is rendered, so methods in this module can be accessible on the animation's timeline.
+ > **alo.load** - Loads the given animation with a callback that returns the root of the given animation's display list.
+ 
+-->
 
 # Requirements
 
