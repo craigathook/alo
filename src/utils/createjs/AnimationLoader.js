@@ -51,10 +51,6 @@ function AnimationLoader() {
     }
   };
 
-  this.canvasLoaded = function(root){
-    this.callback(root);
-  };
-
   this.load = function(animationName, _target, _callback, _options) {
     var callback = null;
     var target = null;
@@ -76,6 +72,10 @@ function AnimationLoader() {
 
     loadScript(animationName + '/index.js', this.animationLoaded.bind(loadData));
   }.bind(this);
+
+  function canvasLoaded(root) {
+    this.callback(root);
+  };
 
   function scriptLoader(url, callback) {
     // Adding the script tag to the head as suggested before
