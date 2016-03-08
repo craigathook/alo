@@ -8,7 +8,7 @@ var config = require('./config');
 // two more states to minify code and create sourcemaps. The default is for local development.
 gulp.task('dev', function(done) {
   config.flags.minify = false;
-  config.flags.sourcemap = false;
+  config.flags.sourcemap = true;
   done();
 });
 

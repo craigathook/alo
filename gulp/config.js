@@ -45,7 +45,7 @@ var config = {
 
   scripts: {
     app: {
-      src: ['./examples/commonjs/app/**/*.js', '!./examples/commonjs/app/vendor/**/*.js'],
+      src: ['./src/**/*.js','./examples/commonjs/app/**/*.js', '!./examples/commonjs/app/vendor/**/*.js'],
       entry: './examples/commonjs/app/Main.js'
     },
     vendor: {

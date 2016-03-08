@@ -24,30 +24,27 @@ Alo Modules are just javascript Functions/Classes with some very basic additiona
       var lib = data.lib; // reference to the library of MovieClips for this animation
 
       root.hitSquare.addEventListener('click', function() { // referencing the hitSquare movieclip in our animation stage, adding a click event listener.
-        root.gotoAndPlay('flap');
+        root.gotoAndPlay('flap') ;
       });
     }
 
 From here you would load the your animation like this:
 
-    module.load('/bird', BirdModule, onLoadComplete, {
-      target: birdContainerDiv,
+    alo.module.load('/bird', '#birdContainer', BirdModule, {
+      onLoaded: onLoadComplete
       transparent: true
     });
 
-<!-- incomplete
-
-# Methods/Classes
+# Methods
 
 Alo has these methods and classes:
 
- > **alo.Canvas** (class _AnimationCanvas_) - When instanced, it creates a CreateJS canvas in the given target with the given CreateJS animation data.
- 
- > **alo.module** (instance of _ModuleLoader_) - Instantiates a CommonJS module with a reference to the root of the given animation's display list. The module is instantiated BEFORE any frame is rendered, so methods in this module can be accessible on the animation's timeline.
- 
- > **alo.load** - Loads the given animation with a callback that returns the root of the given animation's display list.
- 
--->
+**alo.module.load** ( animationUrl, targetElement, module, [options] )
+ > Instantiates a module with a reference to the root of the given animation's display list, and a reference to the animation data. The module is instantiated BEFORE any frame is rendered, so methods in this module can be accessible on the animation's timeline.
+
+
+**alo.load** ( animationUrl, targetElement, callback, [options] ) _Container_
+ > Loads the given animation with a callback that returns the root Container of the given animation's display list.
 
 # Requirements
 

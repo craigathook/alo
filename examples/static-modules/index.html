@@ -28,12 +28,12 @@
         this.init = function() {
           console.log('Main: init');
 
-          alo.module.load('animations/button-a', Button, animationLoadComplete, {
-            target: buttonAContainer,
+          alo.module.load('animations/button-a', buttonAContainer, Button, {
+            onLoaded: animationLoadComplete,
             transparent: true
           });
-          alo.module.load('animations/button-b', Button, animationLoadComplete, {
-            target: buttonBContainer,
+          alo.module.load('animations/button-b', buttonBContainer, Button, {
+            onLoaded: animationLoadComplete,
             transparent: true
           });
         }

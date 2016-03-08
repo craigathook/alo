@@ -5,13 +5,17 @@ var loader = new AnimationLoader();
 
 function ModuleLoader() {
 
-  this.load = function(animationName, module, callback, options) {
+  this.load = function(animationName, target, _module, options) {
     var options = options || {};
-    console.log('ModuleLoader: load:', animationName);
+    if(typeof(target) == 'string') {
+      target = document.querySelector(target);
+    }
+    //console.log('ModuleLoader: load:', animationName);
     var moduleData = {
       name: animationName,
-      module: module,
-      callback: callback,
+      target: target,
+      module: _module,
+      callback: options.onLoaded || function(){},
       options: options,
       animationData: null
     };
@@ -22,11 +26,11 @@ function ModuleLoader() {
 
   this.loadComplete = function(animationData) {
     this.animationData = animationData;
-    expand = new AnimationCanvas(animationData, moduleLoaded.bind(this), this.options);
+    expand = new AnimationCanvas(animationData, this.target, moduleLoaded.bind(this), this.options);
   };
 
   function moduleLoaded(stage) {
-    console.log('ModuleLoader: stageLoaded');
+    //console.log('ModuleLoader: moduleLoaded');
     var moduleInstance = new this.module(stage, this.animationData);
     this.callback(moduleInstance);
   }

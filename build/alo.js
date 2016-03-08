@@ -14,28 +14,28 @@ function Alo() {
 
 window.alo = new Alo();
 },{"./utils/createjs/AnimationCanvas":2,"./utils/createjs/AnimationLoader":3,"./utils/createjs/ModuleLoader":4}],2:[function(require,module,exports){
-function AnimationCanvas(animation, callback, options) {
-  console.log('AnimationCanvas: instance');
+function AnimationCanvas(animation, target, callback, options) {
+  //console.log('AnimationCanvas: instance');
   this.canvas;
   this.stage;
   this.exportRoot;
   this.loadError;
 
   var defaults = {
-    target: null,
     transparent: false,
     onTick: null
   };
 
   var options = mergeOptions(defaults, options);
 
-  this.target = options.target;
+  this.target = target;
   this.transparent = options.transparent;
   this.onTick = options.onTick;
   this.onLoaded = callback;
 
+  var loader = new createjs.LoadQueue(false);
   var lib;
-  //var images;
+  var images = animation.images;
   var ss;
 
   if(animation) {
@@ -45,7 +45,7 @@ function AnimationCanvas(animation, callback, options) {
   }
 
   this.init = function() {
-    console.log('AnimationCanvas: init()');
+    //console.log('AnimationCanvas: init()');
     createjs.MotionGuidePlugin.install();
 
     this.canvas = document.createElement('canvas');
@@ -56,22 +56,21 @@ function AnimationCanvas(animation, callback, options) {
       this.canvas.setAttribute('style', 'style="background-color:"' + lib.properties.color);
     }
 
-    var loader = new createjs.LoadQueue(false);
     loader.addEventListener('fileload', this.handleFileLoad);
     loader.addEventListener('complete', this.handleComplete);
     loader.addEventListener('error', this.handleError);
 
     if (lib.properties.manifest.length == 0) {
-        console.log('AnimationCanvas: Loading spritesheet.');
+        //console.log('AnimationCanvas: Loading spritesheet.');
         loader.loadFile({src: 'images/index_atlas_.json', type: 'spritesheet', id: 'index_atlas_'}, true);
     } else {
-      console.log('AnimationCanvas: Loading images.');
+      //console.log('AnimationCanvas: Loading images.');
       loader.loadManifest(lib.properties.manifest);
     }
   }.bind(this);
 
   this.handleFileLoad = function(evt) {
-    console.log('AnimationCanvas: handleFileLoad()',evt.item.id);
+    //console.log('AnimationCanvas: handleFileLoad()',evt.item.id);
     if (evt.item.type == 'image') {
       images[evt.item.id] = evt.result;
       //window.img[evt.item.id] = evt.result;
@@ -79,16 +78,17 @@ function AnimationCanvas(animation, callback, options) {
   }.bind(this);
 
   this.handleError = function (err) {
-    console.log('AnimationCanvas: Error loading images.');
+    //console.log('AnimationCanvas: Error loading images.');
     if(err.data.src == 'images/index_atlas_.json') {
-      console.log('AnimationCanvas: No images found.');
+      //console.log('AnimationCanvas: No images found.');
     }
+    loader.removeEventListener('complete', this.handleComplete);
     this.handleComplete(null);
     
   }.bind(this);
 
   this.handleComplete = function (evt) {
-    console.log('AnimationCanvas: handleComplete()');
+    //console.log('AnimationCanvas: handleComplete()');
     images = {};
     if(evt) {
       var queue = evt.target;
@@ -151,7 +151,7 @@ module.exports = AnimationCanvas;
 var AnimationCanvas = require('./AnimationCanvas');
 
 function AnimationLoader() {
-  console.log('AnimationLoader: instance');
+  //console.log('AnimationLoader: instance');
 
   var loadManifest = [];
   var loadIndex = 0;
@@ -164,7 +164,7 @@ function AnimationLoader() {
   }
 
   this.animationLoaded = function(e) {
-    console.log('AnimationLoader: animationLoaded');
+    //console.log('AnimationLoader: animationLoaded');
     var animationData = {};
     animationData.lib = window.lib;
     animationData.images = window.images;
@@ -172,10 +172,6 @@ function AnimationLoader() {
     animationData.ss = window.ss;
 
     window.lib = null;
-    //window.images = null; 
-    // this *isn't* done because a referemce to global images 
-    // variable is passed into the createjs closure. nullifying 
-    // this variable breaks that reference.
     window.ss = null;
 
     //console.log(animationData);
@@ -195,7 +191,7 @@ function AnimationLoader() {
         target = this.target;
       }
       this.options.target = target;
-      var newCanvas = new AnimationCanvas(animationData, canvasLoaded.bind(this), this.options);
+      var newCanvas = new AnimationCanvas(animationData, target, canvasLoaded.bind(this), this.options);
     } else {
       this.callback(animationData);
     }
@@ -254,13 +250,17 @@ var loader = new AnimationLoader();
 
 function ModuleLoader() {
 
-  this.load = function(animationName, module, callback, options) {
+  this.load = function(animationName, target, _module, options) {
     var options = options || {};
-    console.log('ModuleLoader: load:', animationName);
+    if(typeof(target) == 'string') {
+      target = document.querySelector(target);
+    }
+    //console.log('ModuleLoader: load:', animationName);
     var moduleData = {
       name: animationName,
-      module: module,
-      callback: callback,
+      target: target,
+      module: _module,
+      callback: options.onLoaded || function(){},
       options: options,
       animationData: null
     };
@@ -271,11 +271,11 @@ function ModuleLoader() {
 
   this.loadComplete = function(animationData) {
     this.animationData = animationData;
-    expand = new AnimationCanvas(animationData, moduleLoaded.bind(this), this.options);
+    expand = new AnimationCanvas(animationData, this.target, moduleLoaded.bind(this), this.options);
   };
 
   function moduleLoaded(stage) {
-    console.log('ModuleLoader: stageLoaded');
+    //console.log('ModuleLoader: moduleLoaded');
     var moduleInstance = new this.module(stage, this.animationData);
     this.callback(moduleInstance);
   }
@@ -283,4 +283,7 @@ function ModuleLoader() {
 
 module.exports = ModuleLoader;
 
-},{"./AnimationCanvas":2,"./AnimationLoader":3}]},{},[1]);
+},{"./AnimationCanvas":2,"./AnimationLoader":3}]},{},[1])
+
+
+//# sourceMappingURL=alo.js.map

@@ -1,7 +1,7 @@
 var AnimationCanvas = require('./AnimationCanvas');
 
 function AnimationLoader() {
-  console.log('AnimationLoader: instance');
+  //console.log('AnimationLoader: instance');
 
   var loadManifest = [];
   var loadIndex = 0;
@@ -14,18 +14,15 @@ function AnimationLoader() {
   }
 
   this.animationLoaded = function(e) {
-    console.log('AnimationLoader: animationLoaded');
+    //console.log('AnimationLoader: animationLoaded');
     var animationData = {};
     animationData.lib = window.lib;
     animationData.images = window.images;
     animationData.img = {};
     animationData.ss = window.ss;
+    animationData.ssUrl = this.name+'/images';
 
     window.lib = null;
-    //window.images = null; 
-    // this *isn't* done because a referemce to global images 
-    // variable is passed into the createjs closure. nullifying 
-    // this variable breaks that reference.
     window.ss = null;
 
     //console.log(animationData);
@@ -36,6 +33,14 @@ function AnimationLoader() {
         animationData.lib.properties.manifest[i].src = this.name + '/' + animationData.lib.properties.manifest[i].src;
       }
     }
+    /*
+    if(animationData.ss) {
+      for(var i in animationData.ss) {
+        console.log('ss',animationData.ss, animationData.ss[i]);
+        animationData.ss[i].src = this.name + '/' + animationData.ss[i].src;
+      }
+    }
+    */
 
     var target = null;
     if(this.target) {
@@ -45,7 +50,7 @@ function AnimationLoader() {
         target = this.target;
       }
       this.options.target = target;
-      var newCanvas = new AnimationCanvas(animationData, canvasLoaded.bind(this), this.options);
+      var newCanvas = new AnimationCanvas(animationData, target, canvasLoaded.bind(this), this.options);
     } else {
       this.callback(animationData);
     }

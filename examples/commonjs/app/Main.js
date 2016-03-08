@@ -2,7 +2,7 @@
 
 var Button = require('./Button'); // Animation Module
 
-var ModuleLoader = require('./utils/createjs/ModuleLoader');
+var ModuleLoader = require('../../../src/utils/createjs/ModuleLoader');
 
 function Main() {
   console.log('Main: instance');
@@ -15,12 +15,12 @@ function Main() {
   this.init = function() {
     console.log('Main: init');
 
-    module.load('animations/button-a', Button, animationLoadComplete, {
-      target: buttonAContainer,
+    module.load('animations/button-a', buttonAContainer, Button, {
+      onLoaded: animationLoadComplete,
       transparent: true
     });
-    module.load('animations/button-b', Button, animationLoadComplete, {
-      target: buttonBContainer,
+    module.load('animations/button-b', buttonBContainer, Button, {
+      onLoaded: animationLoadComplete,
       transparent: true
     });
   }
