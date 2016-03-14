@@ -1,6 +1,6 @@
-var ModuleLoader = require('./utils/createjs/ModuleLoader');
-var AnimationLoader = require('./utils/createjs/AnimationLoader');
-var AnimationCanvas = require('./utils/createjs/AnimationCanvas');
+var ModuleLoader = require('./ModuleLoader');
+var AnimationLoader = require('./AnimationLoader');
+var AnimationCanvas = require('./AnimationCanvas');
 
 function Alo() {
 
