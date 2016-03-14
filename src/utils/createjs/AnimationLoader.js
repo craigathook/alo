@@ -78,8 +78,8 @@ function AnimationLoader() {
     loadScript(animationName + '/index.js', this.animationLoaded.bind(loadData));
   }.bind(this);
 
-  function canvasLoaded(root) {
-    this.callback(root);
+  function canvasLoaded(stage) {
+    this.callback(stage);
   };
 
   function scriptLoader(url, callback) {

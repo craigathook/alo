@@ -108,7 +108,9 @@ function AnimationCanvas(animation, target, callback, options) {
     this.stage.enableMouseOver(24);
     createjs.Touch.enable(this.stage);
     this.stage.root = this.stage.children[0];
-    this.onLoaded(this.stage.root);
+    this.stage.lib = lib;
+    this.stage.container = this.target;
+    this.onLoaded(this.stage);
     this.stage.update();
 
     createjs.Ticker.setFPS(lib.properties.fps);
