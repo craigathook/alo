@@ -37,6 +37,7 @@ function AnimationCanvas(animation, target, callback, options) {
   var lib;
   var images = animation.images;
   var ss;
+  var ssUrl = animation.ssUrl;
 
   if(animation) {
     lib = animation.lib;
@@ -62,7 +63,7 @@ function AnimationCanvas(animation, target, callback, options) {
 
     if (lib.properties.manifest.length == 0) {
         //console.log('AnimationCanvas: Loading spritesheet.');
-        loader.loadFile({src: 'images/index_atlas_.json', type: 'spritesheet', id: 'index_atlas_'}, true);
+        loader.loadFile({src: ssUrl+'/index_atlas_.json', type: 'spritesheet', id: 'index_atlas_'}, true);
     } else {
       //console.log('AnimationCanvas: Loading images.');
       loader.loadManifest(lib.properties.manifest);
@@ -123,7 +124,9 @@ function AnimationCanvas(animation, target, callback, options) {
     this.stage.enableMouseOver(24);
     createjs.Touch.enable(this.stage);
     this.stage.root = this.stage.children[0];
-    this.onLoaded(this.stage.root);
+    this.stage.lib = lib;
+    this.stage.container = this.target;
+    this.onLoaded(this.stage);
     this.stage.update();
 
     createjs.Ticker.setFPS(lib.properties.fps);
@@ -170,6 +173,7 @@ function AnimationLoader() {
     animationData.images = window.images;
     animationData.img = {};
     animationData.ss = window.ss;
+    animationData.ssUrl = this.name+'/images';
 
     window.lib = null;
     window.ss = null;
@@ -182,6 +186,14 @@ function AnimationLoader() {
         animationData.lib.properties.manifest[i].src = this.name + '/' + animationData.lib.properties.manifest[i].src;
       }
     }
+    /*
+    if(animationData.ss) {
+      for(var i in animationData.ss) {
+        console.log('ss',animationData.ss, animationData.ss[i]);
+        animationData.ss[i].src = this.name + '/' + animationData.ss[i].src;
+      }
+    }
+    */
 
     var target = null;
     if(this.target) {
@@ -219,8 +231,8 @@ function AnimationLoader() {
     loadScript(animationName + '/index.js', this.animationLoaded.bind(loadData));
   }.bind(this);
 
-  function canvasLoaded(root) {
-    this.callback(root);
+  function canvasLoaded(stage) {
+    this.callback(stage);
   };
 
   function scriptLoader(url, callback) {
