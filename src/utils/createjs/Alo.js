@@ -1,14 +1,13 @@
-var ModuleLoader = require('./ModuleLoader');
 var AnimationLoader = require('./AnimationLoader');
 var AnimationCanvas = require('./AnimationCanvas');
 
 function Alo() {
 
-  this.module = new ModuleLoader();
-  this.loader = new AnimationLoader();
-  this.load = this.loader.load;
+  var loader = new AnimationLoader();
+
+  this.load = loader.load;
   this.Canvas = AnimationCanvas;
 
 }
 
-module.exports = Alo;
+module.exports = new Alo();

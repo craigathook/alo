@@ -1,19 +1,18 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ModuleLoader = require('./utils/createjs/ModuleLoader');
 var AnimationLoader = require('./utils/createjs/AnimationLoader');
 var AnimationCanvas = require('./utils/createjs/AnimationCanvas');
 
 function Alo() {
 
-  this.module = new ModuleLoader();
-  this.loader = new AnimationLoader();
-  this.load = this.loader.load;
+  var loader = new AnimationLoader();
+
+  this.load = loader.load;
   this.Canvas = AnimationCanvas;
 
 }
 
 window.alo = new Alo();
-},{"./utils/createjs/AnimationCanvas":2,"./utils/createjs/AnimationLoader":3,"./utils/createjs/ModuleLoader":4}],2:[function(require,module,exports){
+},{"./utils/createjs/AnimationCanvas":2,"./utils/createjs/AnimationLoader":3}],2:[function(require,module,exports){
 function AnimationCanvas(animation, target, callback, options) {
   //console.log('AnimationCanvas: instance');
   this.canvas;
@@ -261,48 +260,7 @@ function AnimationLoader() {
 
 module.exports = AnimationLoader;
 
-},{"./AnimationCanvas":2}],4:[function(require,module,exports){
-var AnimationLoader = require('./AnimationLoader');
-var AnimationCanvas = require('./AnimationCanvas');
-
-var loader = new AnimationLoader();
-
-function ModuleLoader() {
-
-  this.load = function(animationName, target, _module, options) {
-    var options = options || {};
-    if(typeof(target) == 'string') {
-      target = document.querySelector(target);
-    }
-    //console.log('ModuleLoader: load:', animationName);
-    var moduleData = {
-      name: animationName,
-      target: target,
-      module: _module,
-      callback: options.onLoaded || function(){},
-      options: options,
-      animationData: null
-    };
-
-    loader.load(animationName, this.loadComplete.bind(moduleData));
-
-  }.bind(this);
-
-  this.loadComplete = function(animationData) {
-    this.animationData = animationData;
-    expand = new AnimationCanvas(animationData, this.target, moduleLoaded.bind(this), this.options);
-  };
-
-  function moduleLoaded(stage) {
-    //console.log('ModuleLoader: moduleLoaded');
-    var moduleInstance = new this.module(stage, this.animationData);
-    this.callback(moduleInstance);
-  }
-}
-
-module.exports = ModuleLoader;
-
-},{"./AnimationCanvas":2,"./AnimationLoader":3}]},{},[1])
+},{"./AnimationCanvas":2}]},{},[1])
 
 
 //# sourceMappingURL=alo.js.map

@@ -1,36 +1,31 @@
 'use strict';
 
 var Button = require('./Button'); // Animation Module
-
-var ModuleLoader = require('../../../src/utils/createjs/ModuleLoader');
+var alo = require('../../../src/utils/createjs/Alo');
 
 function Main() {
   console.log('Main: instance');
 
-  var module = new ModuleLoader();
-
   var buttonAContainer = document.querySelector('#buttonA');
   var buttonBContainer = document.querySelector('#buttonB');
 
-  this.init = function() {
-    console.log('Main: init');
+  var buttonA;
+  var buttonB;
 
-    module.load('animations/button-a', buttonAContainer, Button, {
-      onLoaded: animationLoadComplete,
-      transparent: true
-    });
-    module.load('animations/button-b', buttonBContainer, Button, {
-      onLoaded: animationLoadComplete,
-      transparent: true
-    });
+  alo.load('animations/button-a', buttonAContainer, buttonA_LoadComplete, { transparent: true });
+  alo.load('animations/button-b', buttonBContainer, buttonB_LoadComplete, { transparent: true });
+
+  function buttonA_LoadComplete(stage) {
+    console.log('Main: buttonA_LoadComplete');
+    buttonA = new Button(stage);
   }
 
-  function animationLoadComplete(instance) {
-    console.log('Main: loadComplete', instance);
+  function buttonB_LoadComplete(stage) {
+    console.log('Main: buttonB_LoadComplete');
+    buttonB = new Button(stage);
   }
-
-  this.init();
 
 }
 
 var main = new Main();
+ 

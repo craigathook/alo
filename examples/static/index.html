@@ -27,7 +27,9 @@
 
       }
 
-      function buttonLoaded(root) {
+      function buttonLoaded(stage) {
+
+        var root = stage.root;
 
         root.hitSquare.addEventListener('mouseover', function() {
           root.gotoAndPlay('over');

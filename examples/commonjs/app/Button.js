@@ -1,8 +1,8 @@
-function Button(context, data) {
+function Button(stage) {
   console.log('Button: instance');
 
-  var root = context;
-  var lib = data.lib;
+  var root = stage.root;
+  var lib = stage.lib;
 
   root.hitSquare.addEventListener('mouseover', function() {
     root.gotoAndPlay('over');
