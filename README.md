@@ -14,37 +14,69 @@ From here you would load the your animation like this:
 
     alo.load('/bird', '#birdContainer', function(stage){ stage.root.gotoAndPlay('flap') });
 
-# Alo Module
+# Methods
 
-Alo Modules are just javascript Functions/Classes with some very basic additional suggested structure. Alo Modules are instanciated _before_ the stage has rendered. This is _before_ code on the timeline has ran. So it's safe to add features animators can use on the timeline, such as triggering particle effects. Here's an example of the most basic Alo Module:
+**alo.load** ( animationUrl, targetElement, callback, [options] )
+ > Loads the given animation. When the animation is completely loaded, the callback is called passing a reference to the stage Container of the given animation's display list.
+
+# Options
+
+Alo methods accept an optional options object. The options are:
+
+**transparent** (default: FALSE) _Boolean_
+ > If TRUE, this sets the background of the canvas element to transparent. 
+
+**fps** (default: FLA fps) _Number_
+ > If set, this overwrites the FPS set in the FLA of the animation.
+
+# Modules
+
+Alo callbacks are called after the display list has been fully constructed but _before_ rendering. This is before code on the timeline has ran. So it's safe to add features animations can use on the timeline at this point, such as triggering particle effects. Here's an example of what a basic module using Alo could look like:
 
     function BirdModule(stage) {
 
       var root = stage.root; // root of the display list. same as "scene 1".
       var lib = stage.lib; // reference to the library of MovieClips for this animation
 
-      root.hitSquare.addEventListener('click', function() { // referencing the hitSquare movieclip in our animation stage, adding a click event listener.
+      var numberStars = 20;
+
+      root.hitSquare.addEventListener('click', function() { // referencing the hitSquare MovieClip in our animation stage, adding a click event listener.
         root.gotoAndPlay('flap');
       });
+
+      root.generateStars = function() { // attaching this to the "root" MovieClip alows you to be able to call this method from the root timeline.
+        while(numberStars--) {
+          var star = new lib.Star(); // assuming we have a Star MovieClip, we can instanciate a new instance of the MovieClip from the library (stage.lib);
+          star.x = stage.width * Math.random();
+          star.y = stage.height * Math.random();
+
+          root.addChild(star);
+        }
+      }
+
     }
 
-From here you would load the your animation like this:
+# Stage Object
 
-    alo.module.load('/bird', '#birdContainer', BirdModule, {
-      onLoaded: onLoadComplete,
-      transparent: true
-    });
+The Stage object contains some useful read-only properties:
 
-# Methods
+**lib** _Object_
+ > An object containing references to all MovieClips used in the animation. This is similar to the library in the Animate/Flash IDE, but excludes things that arent used in the final animation.
 
-Alo has these methods and classes:
+**root** _Container_
+ > The root MovieClip of the animation.
 
-**alo.module.load** ( animationUrl, targetElement, module, [options] )
- > Instantiates a module with a reference to the stage Container of the given animation's display list. The module is instantiated BEFORE any frame is rendered, so methods in this module can be accessible on the animation's timeline.
+**width** _Number_
+ > The width of the animation.
 
+**height** _Number_
+ > The height of the animation.
 
-**alo.load** ( animationUrl, targetElement, callback, [options] ) _Container_
- > Loads the given animation with a callback that returns the stage Container of the given animation's display list.
+**fps** _Number_
+ > The frames per second of the animation.
+
+**backgroundColor** _Hexadecimal_
+ > The background color of the animation.
 
 # Requirements
 

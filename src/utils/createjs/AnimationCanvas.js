@@ -7,6 +7,7 @@ function AnimationCanvas(animation, target, callback, options) {
 
   var defaults = {
     transparent: false,
+    fps: null,
     onTick: null
   };
 
@@ -107,13 +108,19 @@ function AnimationCanvas(animation, target, callback, options) {
     this.stage.addChild(this.exportRoot);
     this.stage.enableMouseOver(24);
     createjs.Touch.enable(this.stage);
+
+    // hook up references
     this.stage.root = this.stage.children[0];
     this.stage.lib = lib;
     this.stage.container = this.target;
+    this.stage.width = lib.properties.width;
+    this.stage.height = lib.properties.height;
+    this.stage.backgroundColor = lib.properties.color;
+    this.stage.fps = lib.properties.fps;
     this.onLoaded(this.stage);
     this.stage.update();
 
-    createjs.Ticker.setFPS(lib.properties.fps);
+    createjs.Ticker.setFPS( options.fps || lib.properties.fps);
     //createjs.Ticker.setFPS(60);
     if(this.onTick) {
       createjs.Ticker.addEventListener('tick', this.onTick);
