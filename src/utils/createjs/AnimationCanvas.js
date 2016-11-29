@@ -11,7 +11,7 @@ function AnimationCanvas(animation, target, callback, options) {
     onTick: null
   };
 
-  var options = mergeOptions(defaults, options);
+  var options = mergeOptions(defaults, options || {});
 
   this.target = target;
   this.transparent = options.transparent;
@@ -39,7 +39,7 @@ function AnimationCanvas(animation, target, callback, options) {
     this.canvas.setAttribute('width', lib.properties.width);
     this.canvas.setAttribute('height', lib.properties.height);
     if(!this.transparent) {
-      this.canvas.setAttribute('style', 'style="background-color:"' + lib.properties.color);
+      this.canvas.style.backgroundColor = lib.properties.color;
     }
 
     loader.addEventListener('fileload', this.handleFileLoad);

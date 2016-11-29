@@ -26,7 +26,7 @@ function AnimationCanvas(animation, target, callback, options) {
     onTick: null
   };
 
-  var options = mergeOptions(defaults, options);
+  var options = mergeOptions(defaults, options || {});
 
   this.target = target;
   this.transparent = options.transparent;
@@ -54,7 +54,7 @@ function AnimationCanvas(animation, target, callback, options) {
     this.canvas.setAttribute('width', lib.properties.width);
     this.canvas.setAttribute('height', lib.properties.height);
     if(!this.transparent) {
-      this.canvas.setAttribute('style', 'style="background-color:"' + lib.properties.color);
+      this.canvas.style.backgroundColor = lib.properties.color;
     }
 
     loader.addEventListener('fileload', this.handleFileLoad);
@@ -63,7 +63,11 @@ function AnimationCanvas(animation, target, callback, options) {
 
     if (lib.properties.manifest.length == 0) {
         //console.log('AnimationCanvas: Loading spritesheet.');
-        loader.loadFile({src: ssUrl+'/index_atlas_.json', type: 'spritesheet', id: 'index_atlas_'}, true);
+        try {
+          loader.loadFile({src: ssUrl+'/index_atlas_.json', type: 'spritesheet', id: 'index_atlas_'}, true);
+        } catch (e){
+          console.log('no image atlas');
+        }
     } else {
       //console.log('AnimationCanvas: Loading images.');
       loader.loadManifest(lib.properties.manifest);
@@ -208,7 +212,7 @@ function AnimationLoader() {
       } else {
         target = this.target;
       }
-      this.options.target = target;
+      this.target = target;
       var newCanvas = new AnimationCanvas(animationData, target, canvasLoaded.bind(this), this.options);
     } else {
       this.callback(animationData);
@@ -218,7 +222,7 @@ function AnimationLoader() {
   this.load = function(animationName, _target, _callback, _options) {
     var callback = null;
     var target = null;
-    var options = _options;
+    var options = _options || {};
 
     if(typeof(_target) == 'function') {
       callback = _target;

@@ -49,7 +49,7 @@ function AnimationLoader() {
       } else {
         target = this.target;
       }
-      this.options.target = target;
+      this.target = target;
       var newCanvas = new AnimationCanvas(animationData, target, canvasLoaded.bind(this), this.options);
     } else {
       this.callback(animationData);
@@ -59,7 +59,7 @@ function AnimationLoader() {
   this.load = function(animationName, _target, _callback, _options) {
     var callback = null;
     var target = null;
-    var options = _options;
+    var options = _options || {};
 
     if(typeof(_target) == 'function') {
       callback = _target;
